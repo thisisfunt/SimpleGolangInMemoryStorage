@@ -17,12 +17,9 @@ func Set(w http.ResponseWriter, r *http.Request) {
 		key := r.PostFormValue("k")
 		value := r.PostFormValue("v")
 
-		if key == "" {
-			http.Error(w, "\"k\" is not found", http.StatusNotFound)
-			return
-		}
-		if value == "" {
-			http.Error(w, "\"v\" is not found", http.StatusBadRequest)
+		err = services.IsKeyValid(key)
+		if err != nil {
+			fmt.Fprint(w, err)
 			return
 		}
 
@@ -42,8 +39,9 @@ func Get(w http.ResponseWriter, r *http.Request) {
 		}
 		key := r.PostFormValue("k")
 
-		if key == "" {
-			http.Error(w, "\"k\" is not found", http.StatusBadRequest)
+		err = services.IsKeyValid(key)
+		if err != nil {
+			fmt.Fprint(w, err)
 			return
 		}
 
@@ -62,8 +60,9 @@ func Delete(w http.ResponseWriter, r *http.Request) {
 		}
 		key := r.PostFormValue("k")
 
-		if key == "" {
-			http.Error(w, "\"k\" is not found", http.StatusBadRequest)
+		err = services.IsKeyValid(key)
+		if err != nil {
+			fmt.Fprint(w, err)
 			return
 		}
 
